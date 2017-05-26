@@ -76,7 +76,7 @@ function drawPolylinesOnMap(coordinatesArray, map) {
 }
 // Initialize map
 function myMap() {
-
+    
     var mapProp = {
         center: new google.maps.LatLng(61.867973, 28.886384),
         zoom: 13,

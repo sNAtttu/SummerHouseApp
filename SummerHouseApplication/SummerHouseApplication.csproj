@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Map\" />
+    <Folder Include="Views\SummerHouse\" />
   </ItemGroup>
 
 </Project>

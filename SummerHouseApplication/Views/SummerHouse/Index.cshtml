@@ -1,12 +1,12 @@
-﻿@model SummerHouseApplication.Models.HomeViewModels.HomeIndexViewModel
+﻿@model List<SummerHouse>
 
 <div class="row">
     <ul class="collapsible" data-collapsible="accordion">
-        @foreach (var house in Model.SummerHouses)
+        @foreach (var house in Model)
         {
             <li>
                 <div class="collapsible-header">
-                    <img src="~/images/Icon_Cabin.png" class="houses-collapsible-header-image" />
+                    <img src="~/images/Icon_Cabin.png" class="houses-collapsible-header-image"/>
                     <span class="houses-collapsible-header-text">@house.Name</span>
                 </div>
                 <div class="collapsible-body">
@@ -14,7 +14,7 @@
                         <div class="col s6">
                             <p>
                                 <i class="material-icons">location_on</i>
-                                <span>@house.Address</span>
+                                <span>@house.Address</span>                        
                             </p>
                             <p>
                                 <i class="material-icons">location_city</i>
@@ -22,8 +22,8 @@
                                     <a href="~/map/@house.Id">
                                         @house.City, @house.PostalCode
                                     </a>
-                                </span>
-                            </p>
+                                </span>                           
+                            </p>                           
                         </div>
                         <div class="col s6">
                             <p>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SummerHouseApplication</title>
 
@@ -27,7 +27,16 @@
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
-    
+    <nav>
+        <div class="nav-wrapper brown lighten-4">
+            <a href="~/" class="brand-logo center">
+                <img src="~/images/Icon_Cabin.png" class="nav-logo-img"/>
+            </a>
+            @{ 
+                Html.RenderPartial("_LoginPartial");
+            }
+        </div>
+    </nav>
     <div class="container">
         @RenderBody()
     </div>

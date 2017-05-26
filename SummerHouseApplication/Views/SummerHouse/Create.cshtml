@@ -1,0 +1,75 @@
+@model SummerHouse
+
+<h2>Luo uusi</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="input-field">
+            <label asp-for="Name" class="col m2 active"></label>
+            <div class="col m10">
+                <input asp-for="Name"/>
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+        <div class="input-field">
+            <label asp-for="Address" class="col m2 active"></label>
+            <div class="col m10">
+                <input asp-for="Address"/>
+                <span asp-validation-for="Address"></span>
+            </div>
+        </div>
+        <div class="input-field">
+            <label asp-for="City" class="col m2 active"></label>
+            <div class="col m10">
+                <input asp-for="City"/>
+                <span asp-validation-for="City"></span>
+            </div>
+        </div>
+        <div class="input-field">
+            <label asp-for="PostalCode" class="col m2 active"></label>
+            <div class="col m10">
+                <input asp-for="PostalCode"/>
+                <span asp-validation-for="PostalCode"></span>
+            </div>
+        </div>
+        <div class="input-field">
+            <div class="col m10">
+                <div class="checkbox">
+                    <input asp-for="HasBeach"/>
+                    <label asp-for="HasBeach"></label>
+                </div>
+            </div>
+        </div>
+        <div class="input-field">
+            <div class="col m10 m10 offset-m2">
+                <div class="checkbox">
+                    <input asp-for="HasElectricity"/>
+                    <label asp-for="HasElectricity"></label>
+                </div>
+            </div>
+        </div>
+        <div class="input-field">
+            <div class="col m10 m10 offset-m2">
+                <div class="checkbox">
+                    <input asp-for="HasRunningWater"/>
+                    <label asp-for="HasRunningWater"></label>
+                </div>
+            </div>
+        </div>
+        <div class="input-field">
+            <div class="col m10 m10 offset-m2">
+                <div class="checkbox">
+                    <input asp-for="HasSauna"/>
+                    <label asp-for="HasSauna"></label>
+                </div>
+            </div>
+        </div>
+        <div class="input-field">
+            <div class="col m10 offset-m2">
+                <input type="submit" value="Luo" class="btn" />
+            </div>
+        </div>
+    </div>
+</form>
+
