@@ -1,2 +1,57 @@
 ﻿body {
+    #map{
+
+        button{
+
+            position:relative;
+            width:3em;
+            height:3em;
+
+            img{
+                position:relative;
+                width:100%;
+                top:5px;
+            }
+        }
+    }
+}
+button {
+    display: inline-block;
+    font-family: Arial, "Helvetica", sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 1px 1px 0px #07526e;
+    cursor: pointer;
+    border: none;
+    background: #109bce;
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #07526e, 0px 10px 5px #999;
+}
+
+button:active {
+    box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #07526e, 0px 5px 3px #999;
+    cursor:crosshair;
+}
+
+.button-active{
+    cursor:crosshair;
+    background:#07526e !important;
+}
+
+.button-hidden{
+    display:none;
+}
+
+.button-visible{
+    display:inline-block;
+}
+
+button:active:before {
+    font-size: 50px;
+    text-shadow: 0px 3px 0px #07526e, 0px 5px 1px #07526e /*, 3px 0px 1px #07526e, 3px 3px 1px #07526e,
+     -2px 0px 1px #68cff2*/;
 }

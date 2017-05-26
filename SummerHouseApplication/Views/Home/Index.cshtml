@@ -1,14 +1,88 @@
-﻿<div class="container">
+﻿<div id="map" class="container">
     <h1>Testing GMAP</h1>
     <div id="googleMap" style="width:100%;height:400px;">
     </div>
-    <a href="#">
-
-    </a>
+    <button id="fish-marker" class="map-button">
+        <img src="~/images/fish.svg" />
+    </button>
+    <button id="net-marker" class="map-button">
+        <img src="~/images/fishing-net.png" />
+    </button>
+    <button id="restore-marker" class="map-button button-hidden">
+        <img src="~/images/restore.svg" />
+    </button>
+    <button id="nothing-selected" class="map-button">
+        <img src="~/images/cancel.svg" />
+    </button>
 </div>
 <script>
 
     var markerCoords = [];
+    var markers = [];
+    var latestPolyline;
+    var gmap;
+    // 0 is that we don't mark anything to map
+    // 1 is when we want to place just a marker
+    // 2 is when we want to draw polyline
+    var activeFunctionality = 0;
+
+    $(document).ready(function () {
+
+        $('#nothing-selected').click(function () {
+            activeFunctionality = 0;
+            resetActiveButton();
+            $(this).addClass("button-active");
+        });
+
+        $('#fish-marker').click(function () {
+            activeFunctionality = 1;
+            resetActiveButton();
+            $(this).addClass("button-active");
+        });
+
+        $('#net-marker').click(function () {
+            activeFunctionality = 2;
+            resetActiveButton();
+            $(this).addClass("button-active");
+            $('#restore-marker').addClass("button-visible");
+        });
+
+        $('#restore-marker').click(function () {
+            if (markerCoords.length > 0) {
+                markerCoords.pop();
+                markers.pop().setMap(null);
+                latestPolyline = drawPolylinesOnMap(markerCoords, gmap);
+            }
+        });
+    });
+
+    function resetActiveButton() {
+
+        $('#net-marker').removeClass("button-active");
+        $('#fish-marker').removeClass("button-active");
+        $('#nothing-selected').removeClass("button-active");
+
+        $('#restore-marker').removeClass("button-visible");
+        $('#restore-marker').addClass("button-hidden");
+
+    }
+
+    function drawPolylinesOnMap(coordinatesArray, map) {
+
+        var fishingNet = new google.maps.Polyline({
+            path: coordinatesArray,
+            strokeColor: "#0000FF",
+            strokeOpacity: 0.8,
+            strokeWeight: 2
+        });
+
+        if (typeof (latestPolyline) !== "undefined") {
+            latestPolyline.setMap(null);
+        }
+
+        fishingNet.setMap(map);
+        return fishingNet;
+    }
 
     function myMap() {
 
@@ -18,34 +92,54 @@
         };
 
         var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        // we need to make a global variable of map. This could be do otherwise but map
+        // should be accessible in click functions also.
+        gmap = map;
 
         map.addListener('click', function (event) {
             placeMarker(event.latLng);
         });
 
         function placeMarker(location) {
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-            markerCoords.push({
-                lat: marker.position.lat(),
-                lng: marker.position.lng()
-            });
-            for (var i = 0; i < markerCoords.length; i++) {
 
-                if (markerCoords.length > 1) {
-                    var fishingNet = new google.maps.Polyline({
-                        path: markerCoords,
+            if (activeFunctionality !== 2) {
+                markerCoords = [];
+                if (latestPolyline) {
+                    latestPolyline = new google.maps.Polyline({
+                        path: [],
                         strokeColor: "#0000FF",
                         strokeOpacity: 0.8,
                         strokeWeight: 2
                     });
-                    fishingNet.setMap(map);
+                }
+            }
+
+            if (activeFunctionality !== 0) {
+
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+
+                
+
+                if (activeFunctionality === 2) {
+
+                    markers.push(marker);
+                    markerCoords.push({
+                        lat: marker.position.lat(),
+                        lng: marker.position.lng()
+                    });
+
+                    for (var i = 0; i < markerCoords.length; i++) {
+
+                        if (markerCoords.length > 1) {
+                            latestPolyline = drawPolylinesOnMap(markerCoords, map);
+                        }
+                    }
                 }
             }
         }
-
     }
 
 
