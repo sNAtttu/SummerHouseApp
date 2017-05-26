@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SummerHouseApplication.Models;
+using SummerHouseApplication.Models.Map;
 
 namespace SummerHouseApplication.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class SummerHouseDbContext : IdentityDbContext<SummerHouseUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public SummerHouseDbContext(DbContextOptions<SummerHouseDbContext> options)
             : base(options)
         {
         }
@@ -22,5 +23,10 @@ namespace SummerHouseApplication.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<SummerHouse> SummerHouses { get; set; }
+        public DbSet<FishingNet> FishingNets { get; set; }
+        public DbSet<MapMarker> Markers { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<InfoWindow> InfoWindows { get; set; }
     }
 }

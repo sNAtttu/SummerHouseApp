@@ -40,11 +40,11 @@ namespace SummerHouseApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<SummerHouseDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<SummerHouseUser, IdentityRole>()
+                .AddEntityFrameworkStores<SummerHouseDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();

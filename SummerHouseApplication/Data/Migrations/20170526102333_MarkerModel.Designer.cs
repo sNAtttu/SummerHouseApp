@@ -9,9 +9,10 @@ using SummerHouseApplication.Models.Map;
 namespace SummerHouseApplication.Data.Migrations
 {
     [DbContext(typeof(SummerHouseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170526102333_MarkerModel")]
+    partial class MarkerModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -124,20 +125,6 @@ namespace SummerHouseApplication.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("SummerHouseApplication.Models.Map.FishingNet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("SummerHouseId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SummerHouseId");
-
-                    b.ToTable("FishingNets");
-                });
-
             modelBuilder.Entity("SummerHouseApplication.Models.Map.InfoWindow", b =>
                 {
                     b.Property<int>("Id")
@@ -147,7 +134,7 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InfoWindows");
+                    b.ToTable("InfoWindow");
                 });
 
             modelBuilder.Entity("SummerHouseApplication.Models.Map.Location", b =>
@@ -161,7 +148,7 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("SummerHouseApplication.Models.Map.MapMarker", b =>
@@ -173,13 +160,9 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.Property<int>("FishType");
 
-                    b.Property<int?>("FishingNetId");
-
                     b.Property<int?>("InfoId");
 
                     b.Property<int>("MarkerType");
-
-                    b.Property<int?>("SummerHouseId");
 
                     b.Property<string>("Title");
 
@@ -187,49 +170,9 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasIndex("CoordinatesId");
 
-                    b.HasIndex("FishingNetId");
-
                     b.HasIndex("InfoId");
 
-                    b.HasIndex("SummerHouseId");
-
                     b.ToTable("Markers");
-                });
-
-            modelBuilder.Entity("SummerHouseApplication.Models.SummerHouse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address");
-
-                    b.Property<string>("City");
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<bool>("HasBeach");
-
-                    b.Property<bool>("HasElectricity");
-
-                    b.Property<bool>("HasRunningWater");
-
-                    b.Property<bool>("HasSauna");
-
-                    b.Property<int?>("LocationOnMapId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("OwnerId");
-
-                    b.Property<string>("PostalCode");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationOnMapId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("SummerHouses");
                 });
 
             modelBuilder.Entity("SummerHouseApplication.Models.SummerHouseUser", b =>
@@ -319,41 +262,15 @@ namespace SummerHouseApplication.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SummerHouseApplication.Models.Map.FishingNet", b =>
-                {
-                    b.HasOne("SummerHouseApplication.Models.SummerHouse", "SummerHouse")
-                        .WithMany("FishingNets")
-                        .HasForeignKey("SummerHouseId");
-                });
-
             modelBuilder.Entity("SummerHouseApplication.Models.Map.MapMarker", b =>
                 {
                     b.HasOne("SummerHouseApplication.Models.Map.Location", "Coordinates")
                         .WithMany()
                         .HasForeignKey("CoordinatesId");
 
-                    b.HasOne("SummerHouseApplication.Models.Map.FishingNet", "FishingNet")
-                        .WithMany("Markers")
-                        .HasForeignKey("FishingNetId");
-
                     b.HasOne("SummerHouseApplication.Models.Map.InfoWindow", "Info")
                         .WithMany()
                         .HasForeignKey("InfoId");
-
-                    b.HasOne("SummerHouseApplication.Models.SummerHouse", "SummerHouse")
-                        .WithMany("FishMarkers")
-                        .HasForeignKey("SummerHouseId");
-                });
-
-            modelBuilder.Entity("SummerHouseApplication.Models.SummerHouse", b =>
-                {
-                    b.HasOne("SummerHouseApplication.Models.Map.Location", "LocationOnMap")
-                        .WithMany()
-                        .HasForeignKey("LocationOnMapId");
-
-                    b.HasOne("SummerHouseApplication.Models.SummerHouseUser", "Owner")
-                        .WithMany("SummerHouses")
-                        .HasForeignKey("OwnerId");
                 });
         }
     }
