@@ -22,10 +22,10 @@ namespace SummerHouseApplication.Services
             return _ctx.SummerHouses.Where(h => h.Owner.Id == user.Id).ToList();
         }
 
-        public SummerHouse GetSummerHouseById(int Id)
+        public SummerHouse GetSummerHouseById(SummerHouseUser user, int Id)
         {
             return _ctx.SummerHouses
-                .Where(h => h.Id == Id)
+                .Where(h => h.Id == Id && h.Owner.Id == user.Id)
                 .Include(h => h.LocationOnMap)
                 .FirstOrDefault();
         }

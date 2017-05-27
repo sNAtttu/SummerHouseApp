@@ -167,7 +167,7 @@
                         origin: new google.maps.Point(0, 0),
                         anchor: new google.maps.Point(16, 16),
                     };
-                    contentString = "TÃ¤Ã¤ltÃ¤ on tullut kalaa virvelillÃ¤";
+                    contentString = "Täältä on tullut kalaa virvelillä";
                 }
                 else if (activeFunctionality === 2) {
                     iconImage = {
@@ -220,13 +220,14 @@
                         }
                     }
                 }
+                // 3 means that user saves cottage location so this is loaded when
+                // map is loaded.
                 else if (activeFunctionality === 3) {
                     var locationObj =
                         {
                             Latitude: location.lat(),
                             Longitude: location.lng()
                         };
-                    console.log(JSON.stringify(locationObj));
                     $.ajax({
                         method: "POST",
                         contentType: "application/json",
@@ -239,14 +240,16 @@
 
     }
 
-    // Initialize map
+    // Initialize map.
     function myMap() {
 
+        
         var locationObject = {
             savedLatitude: "@Model.LocationOnMap?.Latitude",
             savedLongitude: "@Model.LocationOnMap?.Longitude"
         };
 
+        // Is summehouse has a user defined location. Else we use address.
         if (locationObject.savedLatitude && locationObject.savedLongitude) {
             var myLatLng =
                 {
@@ -258,17 +261,17 @@
         }
         else {
 
-        var address = "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)";
-        console.log(address);
-        geocoder = new google.maps.Geocoder();
-        geocoder.geocode({
-            'address': "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)"
-        }, function (results, status) {
+            var address = "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)";
+            console.log(address);
+            geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                'address': "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)"
+            }, function (results, status) {
 
-                if (status == google.maps.GeocoderStatus.OK) {
-                    initMap(results[0].geometry.location);
-                }
-            });
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        initMap(results[0].geometry.location);
+                    }
+                });
         }
     }
 </script>

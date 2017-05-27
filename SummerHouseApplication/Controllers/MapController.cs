@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SummerHouseApplication.Models;
 using SummerHouseApplication.Models.Map;
 using SummerHouseApplication.Services;
 using System;
@@ -13,14 +15,19 @@ namespace SummerHouseApplication.Controllers
     public class MapController : Controller
     {
         private readonly SummerHouseDbService _dataService;
-        public MapController(SummerHouseDbService dataservice)
+        private readonly UserManager<SummerHouseUser> _userManager;
+        public MapController(
+            SummerHouseDbService dataservice,
+            UserManager<SummerHouseUser> userManager
+            )
         {
             _dataService = dataservice;
+            _userManager = userManager;
         }
         [HttpGet("/map/{id}")]
         public IActionResult Index(int Id)
          {
-            var house = _dataService.GetSummerHouseById(Id);
+            var house = _dataService.GetSummerHouseById(GetUser(), Id);
             return View(house);
         }
 
@@ -32,9 +39,16 @@ namespace SummerHouseApplication.Controllers
         [HttpPost("/map/location/{summerhouseid}")]
         public IActionResult PostCottageLocation(int summerhouseid, [FromBody]Location location)
         {
-            var house = _dataService.GetSummerHouseById(summerhouseid);
+
+            var house = _dataService.GetSummerHouseById(GetUser(), summerhouseid);
             _dataService.MarkSummerHouseLocation(house, location);
             return Ok();
         }
+
+        private SummerHouseUser GetUser()
+        {
+            return _userManager.GetUserAsync(User).Result;
+        }
+
     }
 }
