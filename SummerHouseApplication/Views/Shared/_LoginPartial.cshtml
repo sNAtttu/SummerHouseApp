@@ -6,6 +6,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    <a href="#" data-activates="mobile-demo" class="button-collapse right"><i class="material-icons">menu</i></a>
     <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="~/summerhouse/">Mökit</a></li>
     </ul>
@@ -21,7 +22,20 @@
                 <button type="submit" class="btn blue" style="margin-right:1em;">Ulos</button>
             </li>
         </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li>
+                <a asp-controller="Manage" asp-action="Index">Terve @UserManager.GetUserName(User)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn blue" style="margin-right:1em;">Ulos</button>
+            </li>
+        </ul>
     </form>
+    <script>
+        $(document).ready(function () {
+            $(".button-collapse").sideNav();
+        });       
+    </script>
 }
 else
 {

@@ -9,9 +9,10 @@ using SummerHouseApplication.Models.Map;
 namespace SummerHouseApplication.Data.Migrations
 {
     [DbContext(typeof(SummerHouseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170527154809_LocationIsBetterWithStrings")]
+    partial class LocationIsBetterWithStrings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

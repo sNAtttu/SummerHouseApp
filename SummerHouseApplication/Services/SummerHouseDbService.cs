@@ -1,6 +1,8 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using SummerHouseApplication.Data;
 using SummerHouseApplication.Models;
+using SummerHouseApplication.Models.Map;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,26 @@ namespace SummerHouseApplication.Services
 
         public SummerHouse GetSummerHouseById(int Id)
         {
-            return _ctx.SummerHouses.Where(h => h.Id == Id).FirstOrDefault();
+            return _ctx.SummerHouses
+                .Where(h => h.Id == Id)
+                .Include(h => h.LocationOnMap)
+                .FirstOrDefault();
+        }
+
+        public SummerHouse MarkSummerHouseLocation(SummerHouse house, Location location)
+        {
+            try
+            {
+                _ctx.Locations.Add(location);
+                var trackedHouse = _ctx.SummerHouses.Where(sh => sh.Id == house.Id).FirstOrDefault();
+                trackedHouse.LocationOnMap = location;
+                _ctx.SaveChanges();
+                return trackedHouse;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public SummerHouse CreateSummerHouse(SummerHouse house)
