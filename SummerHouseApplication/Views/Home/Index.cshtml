@@ -8,6 +8,14 @@
                 <div class="collapsible-header">
                     <img src="~/images/Icon_Cabin.png" class="houses-collapsible-header-image" />
                     <span class="houses-collapsible-header-text">@house.Name</span>
+                    <div class="right">
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" value="@house.Id" />
+                            <button type="submit">
+                                <i class="material-icons">cancel</i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="collapsible-body">
                     <div class="row">

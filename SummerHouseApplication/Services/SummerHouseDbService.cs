@@ -46,6 +46,28 @@ namespace SummerHouseApplication.Services
             }
         }
 
+        public bool DeleteSummerHouse(int id)
+        {
+            try
+            {
+                var house = _ctx.SummerHouses.Where(h => h.Id == id).FirstOrDefault();
+                if (house != null)
+                {
+                    _ctx.SummerHouses.Remove(house);
+                    _ctx.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public SummerHouse CreateSummerHouse(SummerHouse house)
         {
             try

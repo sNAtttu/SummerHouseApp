@@ -25,26 +25,41 @@ namespace SummerHouseApplication.Controllers
         }
         public IActionResult Index()
         {
-            var user = _userManager.GetUserAsync(User).Result;
-            var houses = _dataService.GetUserSummerHouses(user);
-            if (houses.Count > 0)
+            var model = GetViewModel();
+            if(model.SummerHouses.Count > 0)
             {
-                HomeIndexViewModel model = new HomeIndexViewModel
-                {
-                    SummerHouses = houses,
-                    User = user
-                };
                 return View(model);
             }
             else
             {
                 return RedirectToAction("Create", "SummerHouse");
-            }
+            }    
         }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _dataService.DeleteSummerHouse(id);
+            return View(GetViewModel());
+        }
+
         [AllowAnonymous]
         public IActionResult Error()
         {
             return View();
+        }
+
+        private HomeIndexViewModel GetViewModel()
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            var houses = _dataService.GetUserSummerHouses(user);
+
+            HomeIndexViewModel model = new HomeIndexViewModel
+            {
+                SummerHouses = houses,
+                User = user
+            };
+            return model;
+            
         }
     }
 }

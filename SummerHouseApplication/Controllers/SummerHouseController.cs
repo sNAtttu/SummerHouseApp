@@ -87,7 +87,9 @@ namespace SummerHouseApplication.Controllers
         // GET: SummerHouse/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            bool deleted = _dataService.DeleteSummerHouse(id);
+            var userHouses = _dataService.GetUserSummerHouses(_userManager.GetUserAsync(User).Result);
+            return View(userHouses);
         }
 
         // POST: SummerHouse/Delete/5
