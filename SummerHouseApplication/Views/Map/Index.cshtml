@@ -119,6 +119,28 @@
         return fishingNet;
     }
 
+    function PlaceMarkerOnMap(map, lat, lng, imagePath) {
+
+        var iconImage = {
+            url: imagePath,
+            scaledSize: new google.maps.Size(32, 32),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(16, 16),
+        };
+
+        var myLatLng =
+            {
+                lat: parseFloat(lat),
+                lng: parseFloat(lng)
+            };
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            icon: iconImage
+        });
+    }
+
     function initMap(centerLocation) {
         var mapProp = {
             zoom: 15,
@@ -237,7 +259,7 @@
                 }
             }
         }
-
+        return map;
     }
 
     // Initialize map.
@@ -251,13 +273,15 @@
 
         // Is summehouse has a user defined location. Else we use address.
         if (locationObject.savedLatitude && locationObject.savedLongitude) {
+            
             var myLatLng =
                 {
                     lat: parseFloat(locationObject.savedLatitude),
                     lng: parseFloat(locationObject.savedLongitude)
                 };
             console.log(myLatLng)
-            initMap(myLatLng);
+            var map = initMap(myLatLng);
+            PlaceMarkerOnMap(map, locationObject.savedLatitude, locationObject.savedLongitude, "../images/Icon_Cabin.png");
         }
         else {
 
