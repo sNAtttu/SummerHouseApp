@@ -6,7 +6,7 @@
             <div class="collapsible-header">
                 <img src="~/images/Icon_Cabin.png" class="houses-collapsible-header-image" />
                 <span class="houses-collapsible-header-text">@house.Name</span>
-                <div class="row right">
+                <div class="right">
                     <div class="col s1">
                         <form asp-action="Delete" asp-controller="Summerhouse" method="post">
                             <input name="houseId" id="houseId" type="hidden" value="@house.Id" />
