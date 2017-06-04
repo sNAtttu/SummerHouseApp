@@ -1,0 +1,54 @@
+﻿@model List<SummerHouse>
+<ul class="collapsible" data-collapsible="accordion">
+    @foreach (var house in Model)
+    {
+        <li>
+            <div class="collapsible-header">
+                <img src="~/images/Icon_Cabin.png" class="houses-collapsible-header-image" />
+                <span class="houses-collapsible-header-text">@house.Name</span>
+                <div class="row right">
+                    <div class="col s1">
+                        <form asp-action="Delete" asp-controller="Summerhouse" method="post">
+                            <input name="houseId" id="houseId" type="hidden" value="@house.Id" />
+                            <button class="btn summerhouse-delete-btn red lighten-1" type="submit">
+                                <span>Poista</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <div class="col s6">
+                        <p>
+                            <i class="material-icons">location_on</i>
+                            <span>@house.Address</span>
+                        </p>
+                        <p>
+                            <i class="material-icons">location_city</i>
+                            <span>
+                                <a href="~/map/@house.Id">
+                                    @house.City, @house.PostalCode
+                                </a>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col s6">
+                        <p>
+                            @(house.HasBeach ? "Ranta" : "Ei rantaa")
+                        </p>
+                        <p>
+                            @(house.HasElectricity ? "Sähkö" : "Ei sähköä")
+                        </p>
+                        <p>
+                            @(house.HasRunningWater ? "Juokseva vesi" : "Ei juoksevaa vettä")
+                        </p>
+                        <p>
+                            @(house.HasSauna ? "Sauna" : "Ei saunaa")
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

@@ -28,7 +28,14 @@ namespace SummerHouseApplication.Controllers
         public ActionResult Index()
         {
             var userHouses = _dataService.GetUserSummerHouses(_userManager.GetUserAsync(User).Result);
-            return View(userHouses);
+            if (userHouses.Count > 0)
+            {
+                return View(userHouses);
+            }
+            else
+            {
+                return RedirectToAction("Create", "SummerHouse");
+            }         
         }
 
         // GET: SummerHouse/Details/5
@@ -84,28 +91,28 @@ namespace SummerHouseApplication.Controllers
             }
         }
 
-        // GET: SummerHouse/Delete/5
-        public ActionResult Delete(int id)
-        {
-            bool deleted = _dataService.DeleteSummerHouse(id);
-            var userHouses = _dataService.GetUserSummerHouses(_userManager.GetUserAsync(User).Result);
-            return View(userHouses);
-        }
-
         // POST: SummerHouse/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int houseId)
         {
             try
             {
                 // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                bool deleted = _dataService.DeleteSummerHouse(houseId);
+                if (deleted)
+                {
+                    var userHouses = _dataService.GetUserSummerHouses(_userManager.GetUserAsync(User).Result);
+                    return RedirectToAction("Index", userHouses);
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
     }
