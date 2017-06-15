@@ -4,30 +4,52 @@
     <h1>Testing GMAP</h1>
     <div id="googleMap" style="width:100%;height:400px;">
     </div>
-    <button id="cottage-marker" class="map-button">
-        <img src="~/images/Icon_Cabin.png" />
-    </button>
-    <button id="fish-marker" class="map-button">
-        <img src="~/images/fish.svg" />
-    </button>
-    <button id="net-marker" class="map-button">
-        <img src="~/images/fishing-net.png" />
-    </button>
     <button id="restore-marker" class="map-button button-hidden">
         <img src="~/images/restore.svg" />
     </button>
-    <button id="nothing-selected" class="map-button">
-        <img src="~/images/cancel.svg" />
+    <button id="done-drawing" class="map-button button-hidden">
+        <img src="~/images/restore.svg" />
     </button>
 </div>
-<div id="fish-modal" class="modal">
-    <form></form>
-    <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
+<div id="action-select-modal" class="modal bottom-sheet">
+    <div class="container">
+        <div class="modal-content">
+            <h4>Valitse toiminto</h4>
+            <div id="fish-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
+                <div class="col s2">
+                    @* for some reason only inline styles working. TODO: FIX THIS *@
+                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
+                         src="~/images/fish.svg" />
+                </div>
+                <div class="col s6">
+                    <p>Sijoita saaliin sijainti kartalle</p>
+                </div>
+            </div>
+            <div id="cottage-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
+                <div class="col s2">
+                    @* for some reason only inline styles working. TODO: FIX THIS *@
+                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
+                         src="~/images/Icon_Cabin.png" />
+                </div>
+                <div class="col s6">
+                    <p>Sijoita mökin sijainti kartalle</p>
+                </div>
+            </div>
+            <div id="net-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
+                <div class="col s2">
+                    @* for some reason only inline styles working. TODO: FIX THIS *@
+                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
+                         src="~/images/fishing-net.png" />
+                </div>
+                <div class="col s6">
+                    <p>Piirrä verkko kartalle</p>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Sulje</a>
     </div>
 </div>
 <div class="fixed-action-btn">
@@ -51,34 +73,39 @@
     // 2 is when we want to draw polyline
     var activeFunctionality = 0;
 
+    // Latest click on map saves coordinates to this global variable.
+    // we also need global variable to check if user is still drawing
+    // or not
+    var latestCoords;
+    var isDrawing = false;
     // Click functions for each button.
     $(document).ready(function () {
 
         $('.modal').modal();
 
-        $('#nothing-selected').click(function () {
-            activeFunctionality = 0;
-            resetActiveButton();
-            $(this).addClass("button-active");
-        });
-
         $('#fish-marker').click(function () {
             activeFunctionality = 1;
-            resetActiveButton();
-            $(this).addClass("button-active");
+            $('.modal').modal('close');
+            placeMarker(latestCoords);
         });
 
         $('#net-marker').click(function () {
+
             activeFunctionality = 2;
-            resetActiveButton();
-            $(this).addClass("button-active");
             // Enable extra functionality when we are making net marking.
             $('#restore-marker').addClass("button-visible");
+            $('#done-drawing').addClass("button-visible");
+
+            $('.modal').modal('close');
+
+            isDrawing = true;
+            placeMarker(latestCoords);
         });
+
         $('#cottage-marker').click(function () {
             activeFunctionality = 3;
-            resetActiveButton();
-            $(this).addClass("button-active");
+            $('.modal').modal('close');
+            placeMarker(latestCoords);
         })
         // This button is for removing latest drawn polyline. If user is making fishing net and accidentally
         // clicks wrong place on map, this button removes that line and draws latest again.
@@ -89,14 +116,18 @@
                 latestPolyline = drawPolylinesOnMap(markerCoords, gmap);
             }
         });
+        $('#done-drawing').click(function () {
+            isDrawing = false;
+            resetActiveButton();
+            activeFunctionality = 0;
+            placeMarker(latestCoords);
+        });
     });
     // Deactivate all buttons and hide extra functionality button.
     function resetActiveButton() {
 
-        $('#net-marker').removeClass("button-active");
-        $('#fish-marker').removeClass("button-active");
-        $('#nothing-selected').removeClass("button-active");
-
+        $('#done-drawing').removeClass("button-visible");
+        $('#done-drawing').addClass("button-hidden");
         $('#restore-marker').removeClass("button-visible");
         $('#restore-marker').addClass("button-hidden");
 
@@ -141,6 +172,10 @@
         });
     }
 
+    function setLatestClickCoordinatesOnMap(coords) {
+        latestCoords = coords;
+    }
+
     function initMap(centerLocation) {
         var mapProp = {
             zoom: 15,
@@ -152,15 +187,25 @@
         gmap = map;
 
         map.addListener('click', function (event) {
-            placeMarker(event.latLng);
+            //placeMarker(event.latLng);
+            latestCoords = event.latLng;
+            if (!isDrawing) {
+                $('#action-select-modal').modal('open');
+            }
+            else {
+                placeMarker(event.latLng);
+            }
         });
 
-        function placeMarker(location) {
+        return map;
+    }
+
+    function placeMarker(location) {
 
             // If we are doing something else than fishing net.
             // Reset fishing net coords and markers, so next time we make a net
             // last one is not modified.
-
+        console.log(location);
             if (activeFunctionality !== 2) {
                 markerCoords = [];
                 markers = [];
@@ -217,18 +262,18 @@
 
                 var marker = new google.maps.Marker({
                     position: location,
-                    map: map,
+                    map: gmap,
                     icon: iconImage,
                     title: markerTitle
                 });
 
                 marker.addListener('click', function () {
-                    infowindow.open(map, marker);
+                    infowindow.open(gmap, marker);
                 });
 
                 // 2 means polyline
                 if (activeFunctionality === 2) {
-
+                    console.log("drawing polyline");
                     markers.push(marker);
                     markerCoords.push({
                         lat: marker.position.lat(),
@@ -238,7 +283,7 @@
                     for (var i = 0; i < markerCoords.length; i++) {
 
                         if (markerCoords.length > 1) {
-                            latestPolyline = drawPolylinesOnMap(markerCoords, map);
+                            latestPolyline = drawPolylinesOnMap(markerCoords, gmap);
                         }
                     }
                 }
@@ -259,13 +304,12 @@
                 }
             }
         }
-        return map;
-    }
+
 
     // Initialize map.
     function myMap() {
 
-        
+
         var locationObject = {
             savedLatitude: "@Model.LocationOnMap?.Latitude",
             savedLongitude: "@Model.LocationOnMap?.Longitude"
@@ -273,7 +317,7 @@
 
         // Is summehouse has a user defined location. Else we use address.
         if (locationObject.savedLatitude && locationObject.savedLongitude) {
-            
+
             var myLatLng =
                 {
                     lat: parseFloat(locationObject.savedLatitude),
