@@ -8,7 +8,7 @@
         <img src="~/images/restore.svg" />
     </button>
     <button id="done-drawing" class="map-button button-hidden">
-        <img src="~/images/restore.svg" />
+        <img src="~/images/done.svg" />
     </button>
 </div>
 <div id="action-select-modal" class="modal bottom-sheet">
@@ -21,8 +21,30 @@
                     <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
                          src="~/images/fish.svg" />
                 </div>
-                <div class="col s6">
+                <div class="col s4">
                     <p>Sijoita saaliin sijainti kartalle</p>
+                </div>
+                <div id="rod-select-container" class="input-field col s3">
+                    <select id="rod-select">
+                        <option value="" disabled selected>Valitse kalastusväline</option>
+                        <option value="1">Onki</option>
+                        <option value="2">Virveli</option>
+                        <option value="3">Katiska</option>
+                    </select>
+                    <label>Materialize Select</label>
+                </div>
+                <div id="fish-select-container" class="input-field col s3" style="height: 150px; overflow-y:auto;">
+                    <select id="fish-select" >
+                        <option value="" disabled selected>Valitse kala</option>
+                        <option value="1">Ahven</option>
+                        <option value="2">Hauki</option>
+                        <option value="3">Särki</option>
+                        <option value="4">Lohi</option>
+                        <option value="5">Kuha</option>
+                        <option value="6">Lahna</option>
+                        <option value="7">Made</option>
+                    </select>
+                    <label>Materialize Select</label>
                 </div>
             </div>
             <div id="cottage-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
@@ -83,6 +105,17 @@
 
         $('.modal').modal();
 
+        $('#fish-select').material_select();
+        $('#rod-select').material_select();
+
+        $("#fish-select-container").click(function (event) {
+            event.stopPropagation();
+            // Do something
+        });
+        $("#rod-select-container").click(function (event) {
+            event.stopPropagation();
+            // Do something
+        });
         $('#fish-marker').click(function () {
             activeFunctionality = 1;
             $('.modal').modal('close');
