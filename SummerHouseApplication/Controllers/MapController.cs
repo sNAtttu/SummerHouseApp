@@ -31,10 +31,16 @@ namespace SummerHouseApplication.Controllers
             return View(house);
         }
 
-        [HttpPost("/map/marker")]
-        public IActionResult PostMarker()
+        [HttpPost("/map/marker/{summerhouseid}")]
+        public IActionResult PostMarker(int summerhouseid, [FromBody]MapMarker marker)
         {
-            return View();
+            var house = _dataService.GetSummerHouseById(GetUser(), summerhouseid);
+            if (marker != null && house != null)
+            {
+                marker.SummerHouse = house;
+                _dataService.CreateMarker(marker);
+            }
+            return View("Index", house);
         }
         [HttpPost("/map/location/{summerhouseid}")]
         public IActionResult PostCottageLocation(int summerhouseid, [FromBody]Location location)

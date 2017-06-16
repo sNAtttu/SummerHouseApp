@@ -17,6 +17,28 @@ namespace SummerHouseApplication.Services
         {
             _ctx = ctx;
         }
+        public MapMarker CreateMarker(MapMarker marker)
+        {
+            try
+            {
+                _ctx.Markers.Add(marker);
+                _ctx.SaveChanges();
+                return marker;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public List<MapMarker> GetMarkersBySummerhouseId(int summerhouseId)
+        {
+            return _ctx.Markers
+                .Where(m => m.SummerHouse != null &&
+                m.SummerHouse.Id == summerhouseId)
+                .Include(m => m.Info)
+                .Include(m => m.Coordinates)
+                .ToList();
+        }
         public List<SummerHouse> GetUserSummerHouses(SummerHouseUser user)
         {
             return _ctx.SummerHouses.Where(h => h.Owner.Id == user.Id).ToList();

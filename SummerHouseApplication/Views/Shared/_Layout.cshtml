@@ -14,6 +14,7 @@
         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
         <script src="~/lib/materialize/dist/js/materialize.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/underscore/underscore.js"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/materialize/dist/css/materialize.min.css" />
@@ -23,6 +24,7 @@
         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
         <script src="~/lib/materialize/dist/js/materialize.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/underscore/underscore-min.js"></script>
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>

@@ -15,6 +15,7 @@
   <ItemGroup>
     <Content Include="wwwroot\css\summerhouse.less" />
     <Content Include="wwwroot\css\summerhouse.min.css" />
+    <Content Include="wwwroot\images\done.svg" />
     <Content Include="wwwroot\js\fishingmap.js" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +41,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Api\" />
     <Folder Include="Views\SummerHouse\" />
   </ItemGroup>
 
