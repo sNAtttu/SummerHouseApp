@@ -48,9 +48,15 @@ namespace SummerHouseApplication.Controllers
 
             var house = _dataService.GetSummerHouseById(GetUser(), summerhouseid);
             _dataService.MarkSummerHouseLocation(house, location);
-            return Ok();
+            return View("Index", house);
         }
-
+        [HttpPost("/map/fishingnet/{summerhouseid}")]
+        public IActionResult PostFishingNet(int summerhouseid, [FromBody]List<MapMarker> markers)
+        {
+            var house = _dataService.GetSummerHouseById(GetUser(), summerhouseid);
+            _dataService.CreateFishingNet(house, markers);
+            return View("Index", house);
+        }
         private SummerHouseUser GetUser()
         {
             return _userManager.GetUserAsync(User).Result;

@@ -10,7 +10,7 @@ using SummerHouseApplication.Services;
 namespace SummerHouseApplication.Api
 {
     [Produces("application/json")]
-    [Route("api/mapmarker/{summerhouseid}")]
+    
     public class MapMarkerController : Controller
     {
         private readonly SummerHouseDbService _dataService;
@@ -18,9 +18,16 @@ namespace SummerHouseApplication.Api
         {
             _dataService = dataService;
         }
+        [Route("api/mapmarker/{summerhouseid}")]
         public List<MapMarker> GetSummerHouseMarkers(int summerhouseid)
         {
             return _dataService.GetMarkersBySummerhouseId(summerhouseid);
         }
+        [Route("api/fishingnet/{summerhouseid}")]
+        public List<FishingNet> GetFishingNets(int summerhouseid)
+        {
+            return _dataService.GetFishingNetsBySummerhouseId(summerhouseid);
+        }
     }
+
 }

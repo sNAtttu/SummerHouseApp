@@ -9,11 +9,15 @@ namespace SummerHouseApplication.Models.Map
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        public int InfoId { get; set; }
         public InfoWindow Info { get; set; }
+        public int CoordinatesId { get; set; }
         public Location Coordinates { get; set; }
         public MarkerType MarkerType { get; set; }
         public FishType FishType { get; set; }
+        public int? FishingNetId { get; set; }
         public FishingNet FishingNet { get; set; }
+        public int SummerHouseId { get; set; }
         public SummerHouse SummerHouse { get; set; }
     }
 
@@ -33,7 +37,8 @@ namespace SummerHouseApplication.Models.Map
         Salmon,
         PikePerch,
         Bream,
-        Burbot
+        Burbot,
+        MultipleFishes
     }
 
 }

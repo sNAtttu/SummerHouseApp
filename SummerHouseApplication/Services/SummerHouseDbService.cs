@@ -17,6 +17,24 @@ namespace SummerHouseApplication.Services
         {
             _ctx = ctx;
         }
+        public void CreateFishingNet(SummerHouse summerhouse, List<MapMarker> netMarkers)
+        {
+            try
+            {
+                netMarkers.ForEach(m => m.SummerHouse = summerhouse);
+                FishingNet net = new FishingNet
+                {
+                    Markers = netMarkers,
+                    SummerHouse = summerhouse
+                };
+                _ctx.FishingNets.Add(net);
+                _ctx.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public MapMarker CreateMarker(MapMarker marker)
         {
             try
@@ -30,14 +48,50 @@ namespace SummerHouseApplication.Services
                 throw new Exception(ex.Message);
             }
         }
+        public List<FishingNet> GetFishingNetsBySummerhouseId(int summerhouseId)
+        {
+            try
+            {
+                var fishingNets = (from net in _ctx.FishingNets
+                                  join marker in _ctx.Markers
+                                  .Include(m => m.Coordinates)
+                                  .Include(m => m.Info)
+                                  on net.Id equals marker.FishingNet.Id
+                                  into nm
+                                  select new FishingNet
+                                  {
+                                      Id = net.Id,
+                                      Markers = nm.ToList(),
+                                      SummerHouse = net.SummerHouse
+
+                                  }).ToList();
+
+
+                return fishingNets;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<MapMarker> GetMarkersBySummerhouseId(int summerhouseId)
         {
-            return _ctx.Markers
+            try
+            {
+                var markers = _ctx.Markers
                 .Where(m => m.SummerHouse != null &&
-                m.SummerHouse.Id == summerhouseId)
+                m.SummerHouse.Id == summerhouseId &&
+                m.FishingNet == null)
                 .Include(m => m.Info)
                 .Include(m => m.Coordinates)
                 .ToList();
+                return markers;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
         public List<SummerHouse> GetUserSummerHouses(SummerHouseUser user)
         {

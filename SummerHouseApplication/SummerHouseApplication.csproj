@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Api\" />
-    <Folder Include="Views\SummerHouse\" />
   </ItemGroup>
 
 </Project>

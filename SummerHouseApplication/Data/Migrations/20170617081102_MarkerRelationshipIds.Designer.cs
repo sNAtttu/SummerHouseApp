@@ -9,9 +9,10 @@ using SummerHouseApplication.Models.Map;
 namespace SummerHouseApplication.Data.Migrations
 {
     [DbContext(typeof(SummerHouseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170617081102_MarkerRelationshipIds")]
+    partial class MarkerRelationshipIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -173,7 +174,7 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.Property<int>("FishType");
 
-                    b.Property<int?>("FishingNetId");
+                    b.Property<int>("FishingNetId");
 
                     b.Property<int>("InfoId");
 
@@ -335,7 +336,8 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasOne("SummerHouseApplication.Models.Map.FishingNet", "FishingNet")
                         .WithMany("Markers")
-                        .HasForeignKey("FishingNetId");
+                        .HasForeignKey("FishingNetId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SummerHouseApplication.Models.Map.InfoWindow", "Info")
                         .WithMany()

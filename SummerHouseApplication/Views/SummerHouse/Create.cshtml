@@ -1,74 +1,74 @@
-@model SummerHouse
+﻿@model SummerHouse
 
 <h2>Luo uusi</h2>
 
 <form asp-action="Create">
-    <div class="form-horizontal">
+    <div class="row">
         <div asp-validation-summary="ModelOnly"></div>
+        <div class="input-field col s12">
+            <i class="material-icons prefix">label_outline</i>
+            <input id="Name" name="Name" type="text">
+            <label for="Name">Mökin nimi</label>
+        </div>
         <div class="input-field">
-            <label asp-for="Name" class="col m2 active"></label>
-            <div class="col m10">
-                <input asp-for="Name"/>
-                <span asp-validation-for="Name"></span>
+            <div class="input-field col s12">
+                <i class="material-icons prefix">directions_boat</i>
+                <input id="Address" name="Address" type="text">
+                <label for="Address">Osoite</label>
             </div>
         </div>
         <div class="input-field">
-            <label asp-for="Address" class="col m2 active"></label>
-            <div class="col m10">
-                <input asp-for="Address"/>
-                <span asp-validation-for="Address"></span>
+            <div class="input-field col s12">
+                <i class="material-icons prefix">location_city</i>
+                <input id="City" name="City" type="text">
+                <label for="City">Kaupunki</label>
             </div>
         </div>
         <div class="input-field">
-            <label asp-for="City" class="col m2 active"></label>
-            <div class="col m10">
-                <input asp-for="City"/>
-                <span asp-validation-for="City"></span>
+            <div class="input-field col s12">
+                <i class="material-icons prefix">local_post_office</i>
+                <input id="PostalCode" name="PostalCode" type="text">
+                <label for="PostalCode">Postinumero</label>
             </div>
         </div>
         <div class="input-field">
-            <label asp-for="PostalCode" class="col m2 active"></label>
-            <div class="col m10">
-                <input asp-for="PostalCode"/>
-                <span asp-validation-for="PostalCode"></span>
-            </div>
-        </div>
-        <div class="input-field">
-            <div class="col m10">
+            <div class="col s12 m6">
                 <div class="checkbox">
-                    <input asp-for="HasBeach"/>
+                    <input asp-for="HasBeach" />
                     <label asp-for="HasBeach"></label>
                 </div>
             </div>
         </div>
         <div class="input-field">
-            <div class="col m10 m10 offset-m2">
+            <div class="col s12 m6">
                 <div class="checkbox">
-                    <input asp-for="HasElectricity"/>
+                    <input asp-for="HasElectricity" />
                     <label asp-for="HasElectricity"></label>
                 </div>
             </div>
         </div>
         <div class="input-field">
-            <div class="col m10 m10 offset-m2">
+            <div class="col s12 m6">
                 <div class="checkbox">
-                    <input asp-for="HasRunningWater"/>
+                    <input asp-for="HasRunningWater" />
                     <label asp-for="HasRunningWater"></label>
                 </div>
             </div>
         </div>
         <div class="input-field">
-            <div class="col m10 m10 offset-m2">
+            <div class="col s12 m6">
                 <div class="checkbox">
-                    <input asp-for="HasSauna"/>
+                    <input asp-for="HasSauna" />
                     <label asp-for="HasSauna"></label>
                 </div>
             </div>
         </div>
-        <div class="input-field">
-            <div class="col m10 offset-m2">
-                <input type="submit" value="Luo" class="btn" />
-            </div>
+        <div class="input-field col s12">
+            <button class="btn waves-effect waves-light brown lighten-2" type="submit" name="action">
+                Luo
+                <i class="material-icons right">send</i>
+            </button>
+
         </div>
     </div>
 </form>
