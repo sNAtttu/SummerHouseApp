@@ -112,7 +112,7 @@ namespace SummerHouseApplication.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new SummerHouseUser { UserName = model.Email, Email = model.Email };
+                var user = new SummerHouseUser { UserName = model.Username ?? model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

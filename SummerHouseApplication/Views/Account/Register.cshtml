@@ -3,31 +3,36 @@
 <h2>Rekisteröidy</h2>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-    <div asp-validation-summary="All"></div>
-    <div class="input-field">
-        <label asp-for="Email" class="col m2 active"></label>
-        <div class="col m10">
-            <input asp-for="Email" />
-            <span asp-validation-for="Email"></span>
+    <div class="row">
+
+        <div class="input-field col s12">
+            <i class="material-icons prefix">account_box</i>
+            <input id="Username" name="Username" type="text">
+            <label for="Username">Käyttäjänimi</label>
         </div>
-    </div>
-    <div class="input-field">
-        <label asp-for="Password" class="col m2 active"></label>
-        <div class="col m10">
-            <input asp-for="Password" />
-            <span asp-validation-for="Password"></span>
+
+
+        <div class="input-field col s12">
+            <i class="material-icons prefix">contact_mail</i>
+            <input id="Email" name="Email" type="text">
+            <label for="Email">Sähköposti</label>
         </div>
-    </div>
-    <div class="input-field">
-        <label asp-for="ConfirmPassword" class="col m2 active"></label>
-        <div class="col m10">
-            <input asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword"></span>
+
+
+        <div class="input-field col s12">
+            <i class="material-icons prefix">lock</i>
+            <input id="Password" name="Password" type="password" class="validate">
+            <label for="Password">Salasana</label>
         </div>
-    </div>
-    <div class="input-field">
-        <div class="col offset-m2 m10">
-            <button type="submit" class="btn btn-default">Register</button>
+
+        <div class="input-field col s12">
+            <i class="material-icons prefix">verified_user</i>
+            <input id="ConfirmPassword" name="ConfirmPassword" type="password" class="validate">
+            <label for="ConfirmPassword">Vahvista salasanaa</label>
+        </div>
+
+        <div class="input-field col s12">
+            <button class="btn blue" type="submit">Rekisteröidy</button>
         </div>
     </div>
 </form>

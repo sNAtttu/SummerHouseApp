@@ -23,5 +23,8 @@ namespace SummerHouseApplication.Models.AccountViewModels
         [Display(Name = "Vahvista salasana")]
         [Compare("Password", ErrorMessage = "Salasanat eivät täsmää.")]
         public string ConfirmPassword { get; set; }
+        [Display(Name ="Käyttäjänimi")]
+        public string Username { get; set; }
+
     }
 }
