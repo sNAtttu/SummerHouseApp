@@ -20,32 +20,89 @@
             <div class="collapsible-body">
                 <div class="row">
                     <div class="col s6">
-                        <p>
-                            <i class="material-icons">location_on</i>
-                            <span>@house.Address</span>
-                        </p>
-                        <p>
-                            <i class="material-icons">location_city</i>
-                            <span>
-                                <a href="~/map/@house.Id">
-                                    @house.City, @house.PostalCode
+
+                        <div class="row">
+                            <div class="col s1">
+                                <i class="material-icons">location_on</i>
+                            </div>
+                            <div class="col s6">
+                                <span class="summerhouse-sub-header">Osoite:</span><br />
+                                <span>@house.Address @house.City, @house.PostalCode</span>
+                            </div>
+                        </div>
+
+                        <div class="row hide-on-small-and-down">
+                            <div class="col s12">
+
+                                <a href="~/map/@house.Id" class="btn">
+                                    Kartta merkinnät
                                 </a>
-                            </span>
-                        </p>
+
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="col s6">
-                        <p>
-                            @(house.HasBeach ? "Ranta" : "Ei rantaa")
-                        </p>
-                        <p>
-                            @(house.HasElectricity ? "Sähkö" : "Ei sähköä")
-                        </p>
-                        <p>
-                            @(house.HasRunningWater ? "Juokseva vesi" : "Ei juoksevaa vettä")
-                        </p>
-                        <p>
-                            @(house.HasSauna ? "Sauna" : "Ei saunaa")
-                        </p>
+                    <div id="summerhouse-additional-info" class="col s6">
+                        <span class="additional-info-header">Lisätietoja</span>
+                        <div class="row">
+                            <div class="col m6 s12 additional-info">
+                                @if (house.HasBeach)
+                                {
+                                    <img src="~/images/beach.jpg" class="hide-on-small-only"/>
+                                }
+                                else
+                                {
+                                    <img src="~/images/nobeach.png" class="hide-on-small-only"/>
+                                }
+                                <span class="additional-info-text">
+                                    @(house.HasBeach ? "Ranta" : "Ei rantaa")
+                                </span>
+                            </div>
+                            <div class="col m6 s12 additional-info">
+                                @if (house.HasElectricity)
+                                {
+                                    <img src="~/images/electricity.png" class="hide-on-small-only"/>
+                                }
+                                else
+                                {
+                                    <img src="~/images/noelectricity.png" class="hide-on-small-only"/>
+                                }
+                                <span class="additional-info-text">
+                                    @(house.HasElectricity ? "Sähkö" : "Ei Sähköä")
+                                </span>
+                            </div>
+                            <div class="col m6 s12 additional-info">
+                                @if (house.HasRunningWater)
+                                {
+                                    <img src="~/images/runningwater.jpg" class="hide-on-small-only"/>
+                                }
+                                else
+                                {
+                                    <img src="~/images/norunningwater.png" class="hide-on-small-only"/>
+                                }
+                                <span class="additional-info-text">
+                                    @(house.HasRunningWater ? "Juokseva vesi" : "Ei juoksevaa vettä")
+                                </span>
+                            </div>
+                            <div class="col m6 s12 additional-info">
+                                @if (house.HasSauna)
+                                {
+                                    <img src="~/images/sauna.jpg" class="hide-on-small-only"/>
+                                }
+                                else
+                                {
+                                    <img src="~/images/nosauna.png" class="hide-on-small-only" />
+                                }
+                                <span class="additional-info-text">
+                                    @(house.HasSauna ? "Sauna" : "Ei saunaa")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 show-on-small hide-on-med-and-up">
+                        <a href="~/map/@house.Id" class="btn btn-block">
+                            Kartta merkinnät
+                        </a>
                     </div>
                 </div>
             </div>

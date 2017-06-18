@@ -14,22 +14,28 @@
           asp-action="Logout" 
           method="post"
           id="logoutForm">
-        <ul class="right hide-on-med-and-down">
-            <li>
-                <a asp-controller="Manage" asp-action="Index">Terve @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn blue" style="margin-right:1em;">Ulos</button>
-            </li>
-        </ul>
-        <ul class="side-nav" id="mobile-demo">
-            <li>
-                <a asp-controller="Manage" asp-action="Index">Terve @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn blue" style="margin-right:1em;">Ulos</button>
-            </li>
-        </ul>
+        <div class="row">
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a asp-controller="Manage" asp-action="Index">Terve @UserManager.GetUserName(User)!</a>
+                </li>
+                <li>
+                    <button type="submit" class="btn blue" style="margin-right:1em;">Ulos</button>
+                </li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li>
+                    <a asp-controller="Manage" asp-action="Index">Terve @UserManager.GetUserName(User)!</a>
+                </li>
+                <li>
+                    <div class="input-field col s12">
+                        <button class="btn btn-block brown lighten-2" type="submit" name="action">
+                            Kirjaudu ulos
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </form>
     <script>
         $(document).ready(function () {
