@@ -26,7 +26,7 @@ namespace SummerHouseApplication.Controllers
         }
         [HttpGet("/map/{id}")]
         public IActionResult Index(int Id)
-         {
+        {
             var house = _dataService.GetSummerHouseById(GetUser(), Id);
             return View(house);
         }
@@ -42,6 +42,19 @@ namespace SummerHouseApplication.Controllers
             }
             return View("Index", house);
         }
+
+        [HttpDelete("/map/marker/delete/{summerhouseid}")]
+        public IActionResult DeleteMarker(int summerhouseid, [FromBody]Location location)
+        {
+            var house = _dataService.GetSummerHouseById(GetUser(), summerhouseid);
+            if(location != null && house != null)
+            {
+                _dataService.DeleteMarker(house, location);
+            }
+            return Ok();
+        }
+
+
         [HttpPost("/map/location/{summerhouseid}")]
         public IActionResult PostCottageLocation(int summerhouseid, [FromBody]Location location)
         {

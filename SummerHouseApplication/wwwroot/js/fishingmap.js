@@ -12,7 +12,9 @@ var geocoder;
 // 1 is when we want to place just a marker
 // 2 is when we want to draw polyline
 var activeFunctionality = 0;
-
+// Variable to check the time for latest tap.
+// Used to make double tap effect.
+var mylatesttap;
 // Latest click on map saves coordinates to this global variable.
 // we also need global variable to check if user is still drawing
 // or not
@@ -97,7 +99,32 @@ function PlaceMarkerOnMap(map, lat, lng, imagePath, contentString) {
             content: contentString
         });
 
-        marker.addListener('click', function () {
+        marker.addListener('click', function (point) {
+            var self = this;
+            var now = new Date().getTime();
+            var timesince = now - mylatesttap;
+            if ((timesince < 600) && (timesince > 0)) {
+                // double tap   
+                console.log(point.latLng.lat());
+                console.log(point.latLng.lng());
+                var coords = {
+                    Latitude: point.latLng.lat(),
+                    Longitude: point.latLng.lng()
+                };
+                $.ajax({
+                    method: "DELETE",
+                    contentType: "application/json",
+                    data: JSON.stringify(coords),
+                    url: "/map/marker/delete/" + summerhouseId
+                }).
+                    done(function (result) {
+                        console.log(result);
+                        self.setMap(null);
+                    });
+            } else {
+                // too much time to be a doubletap
+            }
+            mylatesttap = new Date().getTime();
             infowindow.open(gmap, marker);
         });
     }
@@ -128,10 +155,6 @@ function initMap(centerLocation) {
 }
 // Initialize click functions for fishing map
 function initializeButtons(summerhouseId) {
-    $('.modal').modal();
-
-    $('#fish-select').material_select();
-    $('#rod-select').material_select();
 
     $("#fish-select-container").click(function (event) {
         event.stopPropagation();

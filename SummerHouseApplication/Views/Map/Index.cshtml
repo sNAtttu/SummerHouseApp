@@ -1,8 +1,7 @@
 ﻿@model SummerHouse
 
 <div id="map" class="container">
-    <h1>Testing GMAP</h1>
-    <div id="googleMap" style="width:100%;height:400px;">
+    <div id="googleMap" style="width:100%;height:500px;margin-top:1em;">
     </div>
     <button id="restore-marker" class="map-button button-hidden">
         <img src="~/images/restore.svg" />
@@ -11,30 +10,82 @@
         <img src="~/images/done.svg" />
     </button>
 </div>
-<div id="action-select-modal" class="modal bottom-sheet">
+<div id="action-select-modal" class="modal bottom-sheet" style="max-height:80% !important;">
     <div class="container">
         <div class="modal-content">
-            <h4>Valitse toiminto</h4>
-            <div id="fish-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
-                <div class="col s2">
-                    @* for some reason only inline styles working. TODO: FIX THIS *@
-                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
-                         src="~/images/fish.svg" />
+            <div id="cottage-marker" class="row modal-action">
+                <div class="modal-action-subheader col s12">
+                    <div class="col s3">
+                        @* for some reason only inline styles working. TODO: FIX THIS *@
+                        <img src="~/images/Icon_Cabin.png" style="margin-top:1em;" />
+                    </div>
+                    <div class="col s6">
+                        <p>Merkitse mökin paikka</p>
+                    </div>
                 </div>
-                <div class="col s4">
-                    <p>Sijoita saaliin sijainti kartalle</p>
+                <div class="modal-action-information-text col s12">
+                    <p>Merkitse kartalle mökin sijainti.</p>
+                    <p>Seuraavalla kerralla kun kartta ladataan mökki löytyy nopeammin ja tarkemmin.</p>
                 </div>
-                <div id="rod-select-container" class="input-field col s3">
+            </div>
+            <div id="net-marker" class="row modal-action">
+                <div class="modal-action-subheader col s12">
+                    <div class="col s3">
+                        @* for some reason only inline styles working. TODO: FIX THIS *@
+                        <img src="~/images/fishing-net.png" style="margin-top:1em;" />
+                    </div>
+                    <div class="col s6">
+                        <p>Piirrä verkko kartalle</p>
+                    </div>
+                </div>
+                <div class="modal-action-information-text col s12">
+                    <p>
+                        Verkon merkitseminen tapahtuu merkkaamalla verkon kaikki päädyt kartalle.
+                    </p>
+                    <div class="row">
+                        <div class="col s10">
+                            <span>
+                                Viimeisimmän merkin voi poistaa painamalla "palauta" -painiketta.
+                            </span>
+                        </div>
+                        <div class="col s2">
+                            <img src="~/images/restore.svg" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s10">
+                            <span>
+                                Lopuksi paina "valmis" -painiketta.
+                            </span>
+                        </div>
+                        <div class="col s2">
+                            <img src="~/images/done.svg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="fish-marker" class="row modal-action">
+                @* for some reason only inline styles working. TODO: FIX THIS *@
+                <div class="modal-action-subheader col s12">
+                    <div class="col s3">
+                        <img src="~/images/fish.svg" />
+                    </div>
+                    <div class="col s6">
+                        <p class="modal-action-subheader-text">
+                            Lisää kala
+                        </p>
+                    </div>
+                </div>
+                <div id="rod-select-container" class="input-field col s12">
                     <select id="rod-select">
                         <option value="" disabled selected>Valitse kalastusväline</option>
                         <option value="1">Onki</option>
                         <option value="2">Virveli</option>
                         <option value="3">Katiska</option>
                     </select>
-                    <label>Materialize Select</label>
                 </div>
-                <div id="fish-select-container" class="input-field col s3" style="height: 150px; overflow-y:auto;">
-                    <select id="fish-select" >
+                <div id="fish-select-container" class="input-field col s12">
+                    <select id="fish-select">
                         <option value="" disabled selected>Valitse kala</option>
                         <option value="1">Ahven</option>
                         <option value="2">Hauki</option>
@@ -44,27 +95,6 @@
                         <option value="6">Lahna</option>
                         <option value="7">Made</option>
                     </select>
-                    <label>Materialize Select</label>
-                </div>
-            </div>
-            <div id="cottage-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
-                <div class="col s2">
-                    @* for some reason only inline styles working. TODO: FIX THIS *@
-                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
-                         src="~/images/Icon_Cabin.png" />
-                </div>
-                <div class="col s6">
-                    <p>Sijoita mökin sijainti kartalle</p>
-                </div>
-            </div>
-            <div id="net-marker" class="row modal-action" style="border:1px solid #808080; padding:1em;">
-                <div class="col s2">
-                    @* for some reason only inline styles working. TODO: FIX THIS *@
-                    <img style="position:relative; width:100%; top:5px; height:3em; width:3em;"
-                         src="~/images/fishing-net.png" />
-                </div>
-                <div class="col s6">
-                    <p>Piirrä verkko kartalle</p>
                 </div>
             </div>
         </div>
@@ -83,6 +113,17 @@
 
     // Click functions for each button.
     $(document).ready(function () {
+        $('.modal').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            opacity: .5, // Opacity of modal background
+            inDuration: 300, // Transition in duration
+            outDuration: 200, // Transition out duration
+            startingTop: '20%', // Starting top style attribute
+            endingTop: '10%', // Ending top style attribute
+        }
+        );
+        $('#rod-select').material_select();
+        $('#fish-select').material_select();
         // This variable is used in fishingmap.js
         summerhouseId = @Model.Id;
         initializeButtons(summerhouseId);

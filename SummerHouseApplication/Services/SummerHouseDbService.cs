@@ -48,6 +48,39 @@ namespace SummerHouseApplication.Services
                 throw new Exception(ex.Message);
             }
         }
+        public void DeleteMarker(SummerHouse summerHouse, Location location)
+        {
+            try
+            {
+                var markerToBeDeleted = _ctx.Markers.Where(m => m.Coordinates != null &&
+                m.Coordinates.Latitude == location.Latitude &&
+                m.Coordinates.Longitude == location.Longitude &&
+                m.SummerHouse != null && m.SummerHouse.Id == summerHouse.Id
+                ).FirstOrDefault();
+
+                if(markerToBeDeleted != null)
+                {
+                    if (markerToBeDeleted.FishingNetId.HasValue)
+                    {
+                        var fishingNetMarkers = _ctx.Markers
+                            .Where(m => m.FishingNetId == markerToBeDeleted.FishingNetId.Value)
+                            .ToList();
+
+                        _ctx.RemoveRange(fishingNetMarkers);
+                        _ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        _ctx.Markers.Remove(markerToBeDeleted);
+                        _ctx.SaveChanges();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<FishingNet> GetFishingNetsBySummerhouseId(int summerhouseId)
         {
             try
@@ -97,7 +130,6 @@ namespace SummerHouseApplication.Services
         {
             return _ctx.SummerHouses.Where(h => h.Owner.Id == user.Id).ToList();
         }
-
         public SummerHouse GetSummerHouseById(SummerHouseUser user, int Id)
         {
             return _ctx.SummerHouses
@@ -105,7 +137,6 @@ namespace SummerHouseApplication.Services
                 .Include(h => h.LocationOnMap)
                 .FirstOrDefault();
         }
-
         public SummerHouse MarkSummerHouseLocation(SummerHouse house, Location location)
         {
             try
@@ -121,7 +152,6 @@ namespace SummerHouseApplication.Services
                 throw new Exception(ex.Message);
             }
         }
-
         public bool DeleteSummerHouse(int id)
         {
             try
@@ -143,7 +173,6 @@ namespace SummerHouseApplication.Services
                 throw new Exception(ex.Message);
             }
         }
-
         public SummerHouse CreateSummerHouse(SummerHouse house)
         {
             try
