@@ -1,15 +1,15 @@
 ﻿@model List<SummerHouse>
 
-<div class="row">
-    @{ 
-        Html.RenderPartial("_SummerHouseListPartial");
-    }
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large brown lighten-2" href="~/summerhouse/create">
-            <i class="large material-icons">add</i>
-        </a>
-    </div>
+
+@{
+    Html.RenderPartial("_SummerHouseListPartial");
+}
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large brown lighten-2" href="~/summerhouse/create">
+        <i class="large material-icons">add</i>
+    </a>
 </div>
+
 <script>
     $(document).ready(function () {
         $('.collapsible').collapsible();

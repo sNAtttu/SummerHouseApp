@@ -91,6 +91,14 @@ namespace SummerHouseApplication.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult ShareSummerHouse(int id, string email)
+        {
+            var house = _dataService.GetSummerHouseById(GetUser(), id);
+            _dataService.ShareSummerHouse(house, email);
+            return RedirectToAction("Index");
+        }
+
         // POST: SummerHouse/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -114,6 +122,10 @@ namespace SummerHouseApplication.Controllers
             {
                 return View("Error");
             }
+        }
+        private SummerHouseUser GetUser()
+        {
+            return _userManager.GetUserAsync(User).Result;
         }
     }
 }

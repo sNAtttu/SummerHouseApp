@@ -9,9 +9,10 @@ using SummerHouseApplication.Models.Map;
 namespace SummerHouseApplication.Data.Migrations
 {
     [DbContext(typeof(SummerHouseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170621181908_SharedSummerHouse")]
+    partial class SharedSummerHouse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -203,13 +204,15 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.Property<int>("SummerHouseId");
 
-                    b.Property<string>("UserId");
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SummerHouseId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("SharedSummerHouses");
                 });
@@ -375,7 +378,7 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasOne("SummerHouseApplication.Models.SummerHouseUser", "User")
                         .WithMany("SharedSummerHouses")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("SummerHouseApplication.Models.SummerHouse", b =>

@@ -31,5 +31,6 @@ namespace SummerHouseApplication.Models
         public SummerHouseUser Owner { get; set; }
         public List<MapMarker> FishMarkers { get; set; }
         public List<FishingNet> FishingNets { get; set; }
+        public List<SharedSummerHouse> AuthorizedUsers { get; set; }
     }
 }

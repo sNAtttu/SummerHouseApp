@@ -10,5 +10,6 @@ namespace SummerHouseApplication.Models
     public class SummerHouseUser : IdentityUser
     {
         public List<SummerHouse> SummerHouses { get; set; }
+        public List<SharedSummerHouse> SharedSummerHouses { get; set; }
     }
 }

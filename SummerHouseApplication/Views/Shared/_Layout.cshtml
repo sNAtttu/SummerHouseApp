@@ -13,8 +13,9 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
         <script src="~/lib/materialize/dist/js/materialize.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/lib/underscore/underscore.js"></script>
+        <script src="~/lib/materialize-autocomplete/jquery.materialize-autocomplete.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/lib/materialize/dist/css/materialize.min.css" />
@@ -23,8 +24,9 @@
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
         <script src="~/lib/materialize/dist/js/materialize.min.js"></script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/materialize-autocomplete/jquery.materialize-autocomplete.min.js"></script>
         <script src="~/lib/underscore/underscore-min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>   
     </environment>
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>

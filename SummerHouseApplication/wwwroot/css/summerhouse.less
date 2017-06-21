@@ -8,7 +8,8 @@ body {
             -moz-box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.28);
             box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.28);
             border-radius: 5px;
-            border:1px solid #eee;
+            border: 1px solid #eee;
+
             .modal-action-subheader {
                 font-size: 1.2em;
                 font-weight: 700;
@@ -85,6 +86,40 @@ body {
      -2px 0px 1px #68cff2*/;
         }
     }
+
+    #mobile-buttons {
+        bottom:0px;
+        left:0px;
+        position:absolute;
+        .home-mobile-button {
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            font-family: Arial;
+            color: #ffffff;
+            font-size: 26px;
+            padding: 2px 5px 2px 5px !important;
+            text-decoration: none;
+            text-align: center;
+            margin: 0.2em;
+
+            i {
+                font-size: 0.8em !important;
+            }
+        }
+
+        .home-mobile-button:hover {
+            background: #3cb0fd;
+            background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+            background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+            background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+            background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+            background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+            text-decoration: none;
+        }
+    }
+
+
 
     .summerhouse-sub-header {
         font-size: 1.2em;

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SummerHouseApplication.Data;
 using SummerHouseApplication.Models;
@@ -13,8 +14,11 @@ namespace SummerHouseApplication.Services
     public class SummerHouseDbService
     {
         private readonly SummerHouseDbContext _ctx;
-        public SummerHouseDbService(SummerHouseDbContext ctx)
+        private readonly UserManager<SummerHouseUser> _userManager;
+        public SummerHouseDbService(SummerHouseDbContext ctx,
+            UserManager<SummerHouseUser> userManager)
         {
+            _userManager = userManager;
             _ctx = ctx;
         }
         public void CreateFishingNet(SummerHouse summerhouse, List<MapMarker> netMarkers)
@@ -154,7 +158,20 @@ namespace SummerHouseApplication.Services
         }
         public List<SummerHouse> GetUserSummerHouses(SummerHouseUser user)
         {
-            return _ctx.SummerHouses.Where(h => h.Owner.Id == user.Id).ToList();
+            var userOwnedHouses = _ctx.SummerHouses.Where(h => h.Owner.Id == user.Id).ToList();
+
+            var userSharedHouses = _ctx.SharedSummerHouses
+                .Where(sh => sh.User.Id == user.Id)
+                .Select(sh => sh.SummerHouseId).ToList();
+
+            if(userSharedHouses.Count > 0)
+            {
+                userOwnedHouses.AddRange(
+                _ctx.SummerHouses.Where(s => userSharedHouses.Contains(s.Id))
+                );
+            }
+
+            return userOwnedHouses;
         }
         public SummerHouse GetSummerHouseById(SummerHouseUser user, int Id)
         {
@@ -211,6 +228,24 @@ namespace SummerHouseApplication.Services
             catch(Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        public void ShareSummerHouse(SummerHouse houseToBeShared, string emailOfNewUser)
+        {
+            try
+            {
+                var user = _userManager.FindByEmailAsync(emailOfNewUser).Result;
+                SharedSummerHouse sharedHouse = new SharedSummerHouse
+                {
+                    SummerHouse = houseToBeShared,
+                    User = user
+                };
+                _ctx.SharedSummerHouses.Add(sharedHouse);
+                _ctx.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
         }
     }

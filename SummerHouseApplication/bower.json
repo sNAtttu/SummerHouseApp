@@ -7,6 +7,7 @@
     "jquery-validation-unobtrusive": "^3.2.6",
     "jquery-ajax-unobtrusive": "^3.2.4",
     "materialize": "^0.98.2",
+    "materialize-autocomplete": "^1.0.7",
     "underscore": "^1.8.3"
   }
 }

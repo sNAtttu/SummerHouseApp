@@ -24,6 +24,7 @@ namespace SummerHouseApplication.Data
             // Add your customizations after calling base.OnModelCreating(builder);
         }
         public DbSet<SummerHouse> SummerHouses { get; set; }
+        public DbSet<SharedSummerHouse> SharedSummerHouses { get; set; }
         public DbSet<FishingNet> FishingNets { get; set; }
         public DbSet<MapMarker> Markers { get; set; }
         public DbSet<Location> Locations { get; set; }
