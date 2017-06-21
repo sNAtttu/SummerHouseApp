@@ -56,24 +56,50 @@ namespace SummerHouseApplication.Services
                 m.Coordinates.Latitude == location.Latitude &&
                 m.Coordinates.Longitude == location.Longitude &&
                 m.SummerHouse != null && m.SummerHouse.Id == summerHouse.Id
-                ).FirstOrDefault();
+                )
+                .Include(m => m.Coordinates)
+                .Include(m => m.Info)
+                .FirstOrDefault();
 
                 if(markerToBeDeleted != null)
                 {
                     if (markerToBeDeleted.FishingNetId.HasValue)
                     {
+                        // This is a fishing net marker
                         var fishingNetMarkers = _ctx.Markers
                             .Where(m => m.FishingNetId == markerToBeDeleted.FishingNetId.Value)
+                            .Include(m => m.Info)
+                            .Include(m => m.Coordinates)
                             .ToList();
 
-                        _ctx.RemoveRange(fishingNetMarkers);
+                        var fishingNetToBeDeleted = _ctx.FishingNets.Where(n => n.Id == markerToBeDeleted.FishingNetId.Value).First();
+                        _ctx.FishingNets.Remove(fishingNetToBeDeleted);
+
+                        foreach (var marker in fishingNetMarkers)
+                        {
+                            _ctx.Locations.Remove(marker.Coordinates);
+                            _ctx.InfoWindows.Remove(marker.Info);
+                        }
+
+                        _ctx.Markers.RemoveRange(fishingNetMarkers);
                         _ctx.SaveChanges();
                     }
                     else
                     {
+                        // Fish marker
+                        _ctx.Locations.Remove(markerToBeDeleted.Coordinates);
+                        _ctx.InfoWindows.Remove(markerToBeDeleted.Info);
                         _ctx.Markers.Remove(markerToBeDeleted);
                         _ctx.SaveChanges();
                     }
+                }
+                else if(summerHouse.LocationOnMap != null &&
+                    summerHouse.LocationOnMap.Latitude == location.Latitude &&
+                    summerHouse.LocationOnMap.Longitude == location.Longitude)
+                {
+                    summerHouse.LocationOnMap = null;
+                    _ctx.Update(summerHouse);
+                    _ctx.SaveChanges();
                 }
             }
             catch(Exception ex)

@@ -21,6 +21,8 @@ var mylatesttap;
 var latestCoords;
 var isDrawing = false;
 
+var fishSelected = 0;
+var rodSelected = 0;
 // this is initialized in fishing map view.
 var summerhouseId = -1;
 // Function for calling api. Api returns an array of markers
@@ -103,7 +105,7 @@ function PlaceMarkerOnMap(map, lat, lng, imagePath, contentString) {
             var self = this;
             var now = new Date().getTime();
             var timesince = now - mylatesttap;
-            if ((timesince < 600) && (timesince > 0)) {
+            if ((timesince < 800) && (timesince > 0)) {
                 // double tap   
                 console.log(point.latLng.lat());
                 console.log(point.latLng.lng());
@@ -118,8 +120,7 @@ function PlaceMarkerOnMap(map, lat, lng, imagePath, contentString) {
                     url: "/map/marker/delete/" + summerhouseId
                 }).
                     done(function (result) {
-                        console.log(result);
-                        self.setMap(null);
+                        location.reload();
                     });
             } else {
                 // too much time to be a doubletap
@@ -331,7 +332,7 @@ function initMap(centerLocation) {
     gmap = map;
 
     map.addListener('click', function (event) {
-        //placeMarker(event.latLng);
+
         latestCoords = event.latLng;
         if (!isDrawing) {
             $('#action-select-modal').modal('open');
@@ -354,6 +355,17 @@ function initializeButtons(summerhouseId) {
         event.stopPropagation();
         // Do something
     });
+
+    $('#fish-select').change(function () {
+        var selectedFish = $('#fish-select').val();
+        fishSelected = selectedFish;
+    });
+
+    $('#rod-select').change(function () {
+        var selectedRod = $('#rod-select').val();
+        rodSelected = selectedRod;
+    });
+
     $('#fish-marker').click(function () {
         activeFunctionality = 1;
         $('.modal').modal('close');
@@ -458,6 +470,42 @@ function drawPolylinesOnMap(coordinatesArray, map) {
 function setLatestClickCoordinatesOnMap(coords) {
     latestCoords = coords;
 }
+
+function MapFishOptionSet(optionSelected) {
+    optionSelected = parseInt(optionSelected);
+    switch (optionSelected) {
+        case 1:
+            return "Ahven";
+        case 2:
+            return "Hauki";
+        case 3:
+            return "Särki";
+        case 4:
+            return "Lohi";
+        case 5:
+            return "Kuha";
+        case 6:
+            return "Lahna";
+        case 7:
+            return "Made";
+        default:
+            return "Tuntematon";
+    }
+}
+function MapRodOptionSet(optionSelected) {
+    optionSelected = parseInt(optionSelected);
+    switch (optionSelected) {
+        case 1:
+            return "Onki";
+        case 2:
+            return "Virveli";
+        case 3:
+            return "Katiska";
+        default:
+            return "Tuntematon";
+    }
+}
+
 function placeMarker(location, summerhouseId) {
 
     // If we are doing something else than fishing net.
@@ -484,15 +532,22 @@ function placeMarker(location, summerhouseId) {
         var iconImage;
         var markerTitle = "Kalapaikka";
         var contentString = "Placeholder string for infowindow content.";
-
+        
         if (activeFunctionality === 1) {
+
+            console.log(fishSelected);
+            console.log(rodSelected);
+
+            var fish = MapFishOptionSet(fishSelected);
+            var rod = MapRodOptionSet(rodSelected);
+
             iconImage = {
                 url: '../images/fishmarker.png',
                 scaledSize: new google.maps.Size(32, 32),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(16, 16),
             };
-            contentString = "Täältä on tullut kalaa virvelillä";
+            contentString = "<p>Kala: "+fish+"</p><p>Väline: "+rod+"</p>";
         }
         else if (activeFunctionality === 2) {
             iconImage = {
@@ -502,7 +557,7 @@ function placeMarker(location, summerhouseId) {
                 anchor: new google.maps.Point(12, 12),
             };
             markerTitle = "Verkko";
-            contentString = "Verkoilla";
+            contentString = "Täältä on tullut kalaa verkoilla";
         }
         else if (activeFunctionality === 3) {
             iconImage = {

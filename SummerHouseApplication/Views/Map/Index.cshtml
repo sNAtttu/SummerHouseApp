@@ -146,9 +146,9 @@
                     lat: parseFloat(locationObject.savedLatitude),
                     lng: parseFloat(locationObject.savedLongitude)
                 };
-
+            var contentString = "Mökin sijainti. Voit tarkentaa mökin sijainti asettamalla sen uudestaan.";
             var map = initMap(myLatLng);
-            PlaceMarkerOnMap(map, locationObject.savedLatitude, locationObject.savedLongitude, "../images/Icon_Cabin.png");
+            PlaceMarkerOnMap(map, locationObject.savedLatitude, locationObject.savedLongitude, "../images/Icon_Cabin.png", contentString);
         }
         else {
 
