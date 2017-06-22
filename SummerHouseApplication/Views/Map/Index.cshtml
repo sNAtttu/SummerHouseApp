@@ -126,6 +126,7 @@
         $('#fish-select').material_select();
         // This variable is used in fishingmap.js
         summerhouseId = @Model.Id;
+        console.log(summerhouseId);
         initializeButtons(summerhouseId);
         loadMarkersOnMap(summerhouseId);
     });
@@ -152,15 +153,18 @@
         }
         else {
 
-            var address = "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)";
-
+            var address = "@(Html.Raw(Model.Address)), @Html.Raw((Model.City)), @(Model.PostalCode)";
+            console.log(address);
             geocoder = new google.maps.Geocoder();
             geocoder.geocode({
                 'address': "@(Html.Raw(Model.Address)), @(Model.City), @(Model.PostalCode)"
             }, function (results, status) {
-
+                console.log(status);
                     if (status == google.maps.GeocoderStatus.OK) {
                         initMap(results[0].geometry.location);
+                }
+                    else {
+                        alert("Osoitteella ei löytynyt sijaintia.");
                     }
                 });
         }

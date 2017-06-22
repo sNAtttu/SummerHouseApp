@@ -175,10 +175,26 @@ namespace SummerHouseApplication.Services
         }
         public SummerHouse GetSummerHouseById(SummerHouseUser user, int Id)
         {
-            return _ctx.SummerHouses
-                .Where(h => h.Id == Id && h.Owner.Id == user.Id)
+            var house = _ctx.SummerHouses.Where(h => h.Id == Id && h.Owner.Id == user.Id)
                 .Include(h => h.LocationOnMap)
                 .FirstOrDefault();
+
+            if(house == null)
+            {
+                // Check if this is a shared summerhouse
+                var sharedHouse = _ctx.SharedSummerHouses
+                .Where(sh => sh.User.Id == user.Id).FirstOrDefault();
+
+                if(sharedHouse != null)
+                {
+                    house = _ctx.SummerHouses.Where(s => s.Id == sharedHouse.SummerHouseId)
+                        .Include(h => h.LocationOnMap)
+                        .FirstOrDefault();
+                }
+
+            }
+
+            return house;
         }
         public SummerHouse MarkSummerHouseLocation(SummerHouse house, Location location)
         {

@@ -42,7 +42,7 @@
                         </div>
                         <div class="row hide-on-small-and-down">
                             <div class="col s12">
-                                <a href="#share-modal" class="btn">
+                                <a href="@("#share-modal"+ house.Id)" class="btn">
                                     <i class="material-icons">share</i>
                                 </a>
                             </div>
@@ -110,40 +110,40 @@
                             <i class="material-icons">map</i>
                         </a>
    
-                        <a href="#share-modal" class="col s2 home-mobile-button brown lighten-3">
+                        <a href="@("#share-modal"+ house.Id)" class="col s2 home-mobile-button brown lighten-3">
                             <i class="material-icons">share</i>
                         </a>
                     </div>
                 </div>
             </div>
-        </li>
-    }
-</ul>
-
-<!-- Modal Structure -->
-<div id="share-modal" class="modal modal-fixed-footer">
-    <div class="modal-content">
-        <h4>Jaa mökki</h4>
-        <p>Syötä sen käyttäjän sähköposti, jolle haluat jakaa mökkitietosi.</p>
-        <form method="post" asp-action="ShareSummerHouse" asp-controller="SummerHouse">
-            <div class="row">
-                <input type="hidden" name="id" id="id" value="2002" />
-                <div class="input-field col s12">
-                    <input id="email" name="email" type="email">
-                    <label for="email">Email</label>
+            <!-- Modal Structure -->
+            <div id="@("share-modal" + house.Id)" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4>Jaa mökki</h4>
+                    <p>Syötä sen käyttäjän sähköposti, jolle haluat jakaa mökkitietosi.</p>
+                    <form method="post" asp-action="ShareSummerHouse" asp-controller="SummerHouse">
+                        <div class="row">
+                            <input type="hidden" name="id" id="id" value="@house.Id" />
+                            <div class="input-field col s12">
+                                <input id="email" name="email" type="email">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <button type="submit" class="btn brown lighten-3">
+                                    Jaa
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="input-field col s12">
-                    <button type="submit" class="btn brown lighten-3">
-                        Jaa
-                    </button>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
                 </div>
             </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-    </div>
-</div>
+        </li>
+
+    }
+</ul>
 <script>
     $(document).ready(function () {
         $('.modal').modal();
