@@ -2,6 +2,12 @@
 @{
     Html.RenderPartial("_SummerHouseListPartial", Model.SummerHouses);
 }
+
+@if(Model?.SummerHouses == null || Model.SummerHouses.Count == 0)
+{
+    <h4>Sinulla ei ole vielä luotuna mökkejä. <br /> Alakulmassa olevasta painikkeesta voit luoda uuden.</h4>
+}
+
 <div class="fixed-action-btn">
     <a class="btn-floating btn-large brown lighten-2" href="~/summerhouse/create">
         <i class="large material-icons">add</i>

@@ -1,0 +1,35 @@
+﻿@model SummerHouse
+
+<div class="row">
+    @if(Model?.QuestionAnswerPairs == null || Model.QuestionAnswerPairs.Count == 0)
+    {
+        <h2>Mökille ei ole luotuna kysymyksiä.</h2>
+    }
+    else
+    {
+        @foreach (var qa in Model.QuestionAnswerPairs)
+        {
+            <div class="col m6 s12">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="~/images/beach.jpg">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">@qa.Question<i class="material-icons right">more_vert</i></span>
+                        <p>Napauta kuvaa lukeaksesi vastauksen.</p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">@qa.Question<i class="material-icons right">close</i></span>
+                        <p>@qa.Answer</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large brown lighten-2" href="~/summerhouseadmin/@Model.Id">
+        <i class="large material-icons">add</i>
+    </a>
+</div>

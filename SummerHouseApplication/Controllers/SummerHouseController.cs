@@ -38,10 +38,15 @@ namespace SummerHouseApplication.Controllers
             }         
         }
 
-        // GET: SummerHouse/Details/5
-        public ActionResult Details(int id)
+        // GET: SummerHouse/Info/5
+        public ActionResult Info(int id)
+        {         
+            return View(_dataService.GetSummerHouseById(GetUser(), id));
+        }
+        // GET: SummerHouse/Admin/5
+        public ActionResult Admin(int id)
         {
-            return View();
+            return View(_dataService.GetSummerHouseById(GetUser(), id));
         }
 
         // GET: SummerHouse/Create

@@ -9,9 +9,10 @@ using SummerHouseApplication.Models.Map;
 namespace SummerHouseApplication.Data.Migrations
 {
     [DbContext(typeof(SummerHouseDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170724072324_QuestionAnswerPairs")]
+    partial class QuestionAnswerPairs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -139,7 +140,7 @@ namespace SummerHouseApplication.Data.Migrations
 
                     b.HasIndex("SummerHouseId");
 
-                    b.ToTable("QuestionAnswers");
+                    b.ToTable("QuestionAnswer");
                 });
 
             modelBuilder.Entity("SummerHouseApplication.Models.Map.FishingNet", b =>

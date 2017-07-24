@@ -26,14 +26,10 @@ namespace SummerHouseApplication.Controllers
         public IActionResult Index()
         {
             var model = GetViewModel();
-            if(model.SummerHouses.Count > 0)
-            {
-                return View(model);
-            }
-            else
-            {
-                return RedirectToAction("Create", "SummerHouse");
-            }    
+
+            return View(model);
+            
+  
         }
         [HttpPost]
         public IActionResult Delete(int id)

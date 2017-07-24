@@ -1,0 +1,33 @@
+﻿@model SummerHouse
+
+<div class="container">
+    <h1>
+        Ylläpito
+    </h1>
+
+    <h2>@Model.Name</h2>
+
+    <form asp-controller="SummerHouseAdmin"
+          asp-action="CreateQuestionAnswerPair"
+          method="post">
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input placeholder="Kysymys" id="question" name="Question" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea id="answer" name="Answer" class="materialize-textarea"></textarea>
+                <label for="answer">Vastaus</label>
+            </div>
+        </div>
+        <input type="hidden" value="@Model.Id" name="SummerHouseId"/>
+        <input type="submit" value="OK" class="btn"/>
+    </form>
+
+</div>
+<script>
+    $('#answer').val('Kirjoita vastaus tähän');
+    $('#answer').trigger('autoresize');
+</script>

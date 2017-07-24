@@ -41,7 +41,12 @@
                             </div>
                         </div>
                         <div class="row hide-on-small-and-down">
-                            <div class="col s12">
+                            <div class="col s4">
+                                <a href="~/summerhouse/info/@house.Id" class="btn">
+                                    <i style="font-size:1.5em;" class="material-icons">info_outline</i>
+                                </a>
+                            </div>
+                            <div class="col s4">
                                 <a href="@("#share-modal"+ house.Id)" class="btn">
                                     <i class="material-icons">share</i>
                                 </a>
@@ -117,7 +122,7 @@
                 </div>
             </div>
             <!-- Modal Structure -->
-            <div id="@("share-modal" + house.Id)" class="modal modal-fixed-footer">
+            <div id="@("share-modal" + house.Id)" class="modal">
                 <div class="modal-content">
                     <h4>Jaa mökki</h4>
                     <p>Syötä sen käyttäjän sähköposti, jolle haluat jakaa mökkitietosi.</p>
@@ -135,9 +140,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
                 </div>
             </div>
         </li>

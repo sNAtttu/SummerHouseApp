@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SummerHouseApplication.Data;
 using SummerHouseApplication.Models;
+using SummerHouseApplication.Models.Info;
 using SummerHouseApplication.Models.Map;
 using System;
 using System.Collections.Generic;
@@ -177,6 +178,7 @@ namespace SummerHouseApplication.Services
         {
             var house = _ctx.SummerHouses.Where(h => h.Id == Id && h.Owner.Id == user.Id)
                 .Include(h => h.LocationOnMap)
+                .Include(h => h.QuestionAnswerPairs)
                 .FirstOrDefault();
 
             if(house == null)
@@ -189,6 +191,7 @@ namespace SummerHouseApplication.Services
                 {
                     house = _ctx.SummerHouses.Where(s => s.Id == sharedHouse.SummerHouseId)
                         .Include(h => h.LocationOnMap)
+                        .Include(h => h.QuestionAnswerPairs)
                         .FirstOrDefault();
                 }
 
@@ -263,6 +266,21 @@ namespace SummerHouseApplication.Services
             {
                 throw ex;
             }
+        }
+        public QuestionAnswer CreateQuestionAnswerPair(QuestionAnswer qaPair)
+        {
+            try
+            {
+                _ctx.Add(qaPair);
+                _ctx.SaveChanges();
+                return qaPair;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            
         }
     }
 }

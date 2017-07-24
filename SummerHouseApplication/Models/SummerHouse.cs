@@ -1,4 +1,5 @@
-﻿using SummerHouseApplication.Models.Map;
+﻿using SummerHouseApplication.Models.Info;
+using SummerHouseApplication.Models.Map;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,5 +33,6 @@ namespace SummerHouseApplication.Models
         public List<MapMarker> FishMarkers { get; set; }
         public List<FishingNet> FishingNets { get; set; }
         public List<SharedSummerHouse> AuthorizedUsers { get; set; }
+        public List<QuestionAnswer> QuestionAnswerPairs { get; set; }
     }
 }
